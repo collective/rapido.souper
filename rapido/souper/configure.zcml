@@ -10,7 +10,8 @@
   />
 
   <adapter
-    for="souper.interfaces.IRecord"
+    for="souper.interfaces.IRecord
+         rapido.core.interfaces.IDatabase"
     provides="rapido.core.interfaces.IRecordable"
     factory=".document.DocumentRecord"
   />

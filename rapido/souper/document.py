@@ -6,8 +6,9 @@ from rapido.core.interfaces import IRecordable
 class DocumentRecord(object):
     implements(IRecordable)
 
-    def __init__(self, context):
+    def __init__(self, context, database):
         self.context = context
+        self.database = database
 
     def set_item(self, name, value):
         """ set an item value

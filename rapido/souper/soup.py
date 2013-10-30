@@ -1,9 +1,9 @@
 from zope.interface import implements
-from zope.component import provideUtility
+from zope.component import provideUtility, getMultiAdapter
 from souper.soup import get_soup, Record
 from repoze.catalog.query import Eq
 
-from rapido.core.interfaces import IStorage, IRecordable
+from rapido.core.interfaces import IStorage, IRecordable, IDatabase
 
 from .catalog import CatalogFactory
 
@@ -12,17 +12,16 @@ class SoupStorage(object):
 
     def __init__(self, context):
         self.context = context
-        self._soup = None
+        provideUtility(CatalogFactory(), name=self._get_id())
 
     def initialize(self):
         """ setup the storage
         """
-        provideUtility(CatalogFactory(), name=self._get_id())
         self._soup = get_soup(self._get_id(), self.context)
 
     @property
     def soup(self):
-        if not self._soup:
+        if not hasattr(self, '_soup'):
             self._soup = get_soup(self._get_id(), self.context)
         return self._soup
 
@@ -31,7 +30,9 @@ class SoupStorage(object):
         """
         record = Record()
         rid = self.soup.add(record)
-        return IRecordable(self.soup.get(rid))
+        return getMultiAdapter(
+            (self.soup.get(rid), IDatabase(self.context)),
+            IRecordable)
 
     def get(self, uid=None):
         """ return an existing document
@@ -39,7 +40,9 @@ class SoupStorage(object):
         record = self.soup.get(uid)
         if not record:
             return None
-        return IRecordable(record)
+        return getMultiAdapter(
+            (record, IDatabase(self.context)),
+            IRecordable)
 
     def save(self, doc):
         """ save a document
