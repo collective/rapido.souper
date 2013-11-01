@@ -1,6 +1,8 @@
-from zope.interface import implements
+from zope.interface import implements, alsoProvides
 from zope.component import provideUtility, getMultiAdapter
 from souper.soup import get_soup, Record
+from souper.plone.interfaces import ISoupRoot
+from souper.plone.locator import StorageLocator
 from repoze.catalog.query import Eq
 
 from rapido.core.interfaces import IStorage, IRecordable, IDatabase
@@ -14,10 +16,13 @@ class SoupStorage(object):
         self.context = context
         provideUtility(CatalogFactory(), name=self._get_id())
 
-    def initialize(self):
+    def initialize(self, root):
         """ setup the storage
         """
-        self._soup = get_soup(self._get_id(), self.context)
+        alsoProvides(root, ISoupRoot)
+        locator = StorageLocator(root)
+        locator.storage(self._get_id())
+        self._soup = get_soup(self._get_id(), root)
 
     @property
     def soup(self):
@@ -60,4 +65,4 @@ class SoupStorage(object):
         """
 
     def _get_id(self):
-        return "SOUP_" + str(hash(self.context))
+        return "rapido_%s" % (self.context.uid)
