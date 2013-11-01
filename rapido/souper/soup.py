@@ -64,5 +64,8 @@ class SoupStorage(object):
         """ search for documents
         """
 
+    def documents(self):
+        return [self.get(k) for k in self.soup.data.keys()]
+
     def _get_id(self):
         return "rapido_%s" % (self.context.uid)
