@@ -68,12 +68,12 @@ class SoupStorage(object):
             reverse=False, names=None, with_size=False):
         """ search for documents
         """
-        records = self.soup.query(query, sort_index=sort_index, limit=limit,
+        records = self.soup.lazy(query, sort_index=sort_index, limit=limit,
             sort_type=sort_type, reverse=reverse, names=names,
             with_size=with_size)
         db = IDatabase(self.context)
         for record in records: 
-            yield getMultiAdapter((record, db), IRecordable)
+            yield getMultiAdapter((record(), db), IRecordable)
 
     def documents(self):
         for key in self.soup.data.keys():
