@@ -1,7 +1,10 @@
 from zope.interface import implements, alsoProvides
 from zope.component import provideUtility, getMultiAdapter
 from repoze.catalog.query import Eq
-from souper.soup import get_soup, Record
+from souper.soup import get_soup, Record, NodeAttributeIndexer
+from repoze.catalog.indexes.field import CatalogFieldIndex
+from repoze.catalog.indexes.text import CatalogTextIndex
+from repoze.catalog.indexes.keyword import CatalogKeywordIndex
 try:
     from souper.plone.interfaces import ISoupRoot
     from souper.plone.locator import StorageLocator
@@ -81,6 +84,16 @@ class SoupStorage(object):
 
     def reindex(self, doc):
         self.soup.reindex(records=[doc.context])
+
+    def create_index(self, fieldname, indextype):
+        catalog = self.soup.catalog
+        field_indexer = NodeAttributeIndexer(fieldname)
+        if indextype == 'field':
+            catalog[fieldname] = CatalogFieldIndex(field_indexer)
+        elif indextype == 'keyword':
+            catalog[fieldname] = CatalogKeywordIndex(field_indexer)
+        elif indextype == 'text':
+            catalog[fieldname] = CatalogTextIndex(field_indexer)
 
     def _get_id(self):
         return "rapido_%s" % (self.context.uid)

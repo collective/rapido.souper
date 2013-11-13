@@ -54,6 +54,23 @@ Let's create a document:
     >>> storage.reindex(doc)
     >>> len([doc for doc in storage.search('docid=="doc_1"')])
     1
+
+Add indexes:
+
+    >>> storage.create_index("band", "field")
+    >>> doc.set_item('band', "Pixies")
+    >>> len([doc for doc in storage.search('band=="Pixies"')])
+    0
+    >>> storage.reindex(doc)
+    >>> len([doc for doc in storage.search('band=="Pixies"')])
+    1
+    >>> storage.create_index("song", "text")
+    >>> storage.reindex(doc)
+    >>> len([doc for doc in storage.search('"mind" in song')])
+    1
+
+Delete items or document:
+
     >>> doc.remove_item('song')
     >>> doc.has_item('song')
     False
@@ -62,4 +79,3 @@ Let's create a document:
     >>> storage.delete(doc)
     >>> list(storage.documents())
     []
-
