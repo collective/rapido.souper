@@ -64,12 +64,21 @@ class SoupStorage(object):
         """
         del self.soup[doc.context]
 
-    def search(self, query):
+    def search(self, query, sort_index=None, limit=None, sort_type=None,
+            reverse=False, names=None, with_size=False):
         """ search for documents
         """
+        records = self.soup.query(query, sort_index=sort_index, limit=limit,
+            sort_type=sort_type, reverse=reverse, names=names,
+            with_size=with_size)
+        db = IDatabase(self.context)
+        return [getMultiAdapter((record, db), IRecordable) for record in records]
 
     def documents(self):
         return [self.get(k) for k in self.soup.data.keys()]
+
+    def reindex(self, doc):
+        self.soup.reindex(records=[doc.context])
 
     def _get_id(self):
         return "rapido_%s" % (self.context.uid)

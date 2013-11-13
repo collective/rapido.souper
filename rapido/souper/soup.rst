@@ -50,6 +50,10 @@ Let's create a document:
     True
     >>> doc.get_item('song')
     'Where is my mind?'
+    >>> doc.set_item('docid', "doc_1")
+    >>> storage.reindex(doc)
+    >>> len(storage.search('docid=="doc_1"'))
+    1
     >>> doc.remove_item('song')
     >>> doc.has_item('song')
     False
