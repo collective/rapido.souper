@@ -52,14 +52,14 @@ Let's create a document:
     'Where is my mind?'
     >>> doc.set_item('docid', "doc_1")
     >>> storage.reindex(doc)
-    >>> len(list(storage.search('docid=="doc_1"')))
+    >>> len([doc for doc in storage.search('docid=="doc_1"')])
     1
     >>> doc.remove_item('song')
     >>> doc.has_item('song')
     False
-    >>> storage.documents()
+    >>> list(doc for doc in storage.documents())
     [<rapido.souper.document.DocumentRecord object at ...>]
     >>> storage.delete(doc)
-    >>> storage.documents()
+    >>> list(storage.documents())
     []
 

@@ -76,7 +76,8 @@ class SoupStorage(object):
             yield getMultiAdapter((record, db), IRecordable)
 
     def documents(self):
-        return [self.get(k) for k in self.soup.data.keys()]
+        for key in self.soup.data.keys():
+            yield self.get(key)
 
     def reindex(self, doc):
         self.soup.reindex(records=[doc.context])
