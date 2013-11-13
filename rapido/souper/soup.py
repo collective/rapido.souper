@@ -72,7 +72,8 @@ class SoupStorage(object):
             sort_type=sort_type, reverse=reverse, names=names,
             with_size=with_size)
         db = IDatabase(self.context)
-        return [getMultiAdapter((record, db), IRecordable) for record in records]
+        for record in records: 
+            yield getMultiAdapter((record, db), IRecordable)
 
     def documents(self):
         return [self.get(k) for k in self.soup.data.keys()]
