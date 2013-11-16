@@ -82,8 +82,14 @@ class SoupStorage(object):
         for key in self.soup.data.keys():
             yield self.get(key)
 
-    def reindex(self, doc):
-        self.soup.reindex(records=[doc.context])
+    def rebuild(self):
+        self.soup.rebuild()
+        
+    def reindex(self, doc=None):
+        if doc:
+            self.soup.reindex(records=[doc.context])
+        else:
+            self.soup.reindex()
 
     def create_index(self, fieldname, indextype):
         catalog = self.soup.catalog
