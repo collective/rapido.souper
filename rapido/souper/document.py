@@ -40,4 +40,4 @@ class DocumentRecord(object):
     def items(self):
         """ return all items
         """
-        return self.context.attrs.items()
+        return dict(self.context.attrs)

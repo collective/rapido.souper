@@ -52,7 +52,7 @@ Let's create a document:
     'Where is my mind?'
     >>> doc.set_item('docid', "doc_1")
     >>> doc.items()
-    [('song', 'Where is my mind?'), ('docid', 'doc_1')]
+    {'docid': 'doc_1', 'song': 'Where is my mind?'}
     >>> storage.reindex(doc)
     >>> len([doc for doc in storage.search('docid=="doc_1"')])
     1
