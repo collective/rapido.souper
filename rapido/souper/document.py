@@ -36,3 +36,8 @@ class DocumentRecord(object):
         """ return internal identifier
         """
         return self.context.intid
+
+    def items(self):
+        """ return all items
+        """
+        return self.context.attrs.items()

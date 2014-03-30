@@ -28,7 +28,7 @@ Create object which can store soup data:
 Create a persistent object that will be adapted as a rapido db:
 
     >>> class DatabaseNode(BaseNode):
-    ...    implements(IDatabasable)
+    ...    implements(IAttributeAnnotatable, IDatabasable)
     ...    def __init__(self, uid, root):
     ...        self.uid = uid
     ...        self['root'] = root
@@ -51,6 +51,8 @@ Let's create a document:
     >>> doc.get_item('song')
     'Where is my mind?'
     >>> doc.set_item('docid', "doc_1")
+    >>> doc.items()
+    [('song', 'Where is my mind?'), ('docid', 'doc_1')]
     >>> storage.reindex(doc)
     >>> len([doc for doc in storage.search('docid=="doc_1"')])
     1
