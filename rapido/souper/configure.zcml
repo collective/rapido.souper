@@ -16,10 +16,4 @@
     factory=".document.DocumentRecord"
   />
 
-  <adapter
-    for="souper.plone.interfaces.ISoupRoot"
-    provides="souper.interfaces.IStorageLocator" 
-    factory=".locator.StorageLocator" 
-  />
-
 </configure>

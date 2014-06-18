@@ -2,6 +2,7 @@ from zope.interface import implements, alsoProvides
 from zope.component import provideUtility, getMultiAdapter
 from repoze.catalog.query import Eq
 from souper.soup import get_soup, Record, NodeAttributeIndexer
+from souper.interfaces import ICatalogFactory
 from repoze.catalog.indexes.field import CatalogFieldIndex
 from repoze.catalog.indexes.text import CatalogTextIndex
 from repoze.catalog.indexes.keyword import CatalogKeywordIndex
@@ -21,7 +22,7 @@ class SoupStorage(object):
 
     def __init__(self, context):
         self.context = context
-        provideUtility(CatalogFactory(), name=self._get_id())
+        provideUtility(CatalogFactory(), ICatalogFactory, name=self._get_id())
 
     def initialize(self):
         """ setup the storage

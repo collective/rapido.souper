@@ -7,7 +7,6 @@ from souper.soup import (
     SoupData,
     get_soup
 )
-from souper.plone.interfaces import ISoupRoot
 
 CACHE_PREFIX = 'soup_storage_%s'
 SOUPPATHS = 'SOUPPATHS'
