@@ -22,7 +22,7 @@ class SoupStorage(object):
 
     def __init__(self, context):
         self.context = context
-        provideUtility(CatalogFactory(), ICatalogFactory, name=self._get_id())
+        # provideUtility(CatalogFactory(), ICatalogFactory, name=self._get_id())
 
     def initialize(self):
         """ setup the storage
