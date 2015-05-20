@@ -13,7 +13,7 @@ except:
     from .interfaces import ISoupRoot
     from .locator import StorageLocator
 
-from rapido.core.interfaces import IStorage, IRecordable, IDatabase
+from rapido.core.interfaces import IStorage, IRecordable, IRapidoApplication
 
 from .catalog import CatalogFactory
 
@@ -44,7 +44,7 @@ class SoupStorage(object):
         record = Record()
         rid = self.soup.add(record)
         return getMultiAdapter(
-            (self.soup.get(rid), IDatabase(self.context)),
+            (self.soup.get(rid), IRapidoApplication(self.context)),
             IRecordable)
 
     def get(self, uid=None):
@@ -54,7 +54,7 @@ class SoupStorage(object):
         if not record:
             return None
         return getMultiAdapter(
-            (record, IDatabase(self.context)),
+            (record, IRapidoApplication(self.context)),
             IRecordable)
 
     def save(self, doc):
@@ -75,7 +75,7 @@ class SoupStorage(object):
         records = self.soup.lazy(query, sort_index=sort_index, limit=limit,
             sort_type=sort_type, reverse=reverse, names=names,
             with_size=with_size)
-        db = IDatabase(self.context)
+        db = IRapidoApplication(self.context)
         for record in records: 
             yield getMultiAdapter((record(), db), IRecordable)
 

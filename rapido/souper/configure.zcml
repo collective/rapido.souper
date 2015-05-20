@@ -4,14 +4,14 @@
            >
 
   <adapter
-    for="rapido.core.interfaces.IDatabasable"
+    for="rapido.core.interfaces.IRapidable"
     provides="rapido.core.interfaces.IStorage"
     factory=".soup.SoupStorage"
   />
 
   <adapter
     for="souper.interfaces.IRecord
-         rapido.core.interfaces.IDatabase"
+         rapido.core.interfaces.IRapidable"
     provides="rapido.core.interfaces.IRecordable"
     factory=".document.DocumentRecord"
   />
