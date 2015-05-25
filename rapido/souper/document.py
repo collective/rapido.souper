@@ -3,12 +3,15 @@ from copy import deepcopy
 
 from rapido.core.interfaces import IRecordable
 
-class DocumentRecord(object):
-    implements(IRecordable)
+from .interfaces import IRecord
 
-    def __init__(self, context, database):
+
+class DocumentRecord(object):
+    implements(IRecord, IRecordable)
+
+    def __init__(self, context, app):
         self.context = context
-        self.database = database
+        self.app = app
 
     def set_item(self, name, value):
         """ set an item value
@@ -24,12 +27,12 @@ class DocumentRecord(object):
     def has_item(self, name):
         """ test if item exists
         """
-        return self.context.attrs.has_key(name)
+        return name in self.context.attrs
 
     def remove_item(self, name):
         """ remove an item
         """
-        if self.context.attrs.has_key(name):
+        if name in self.context.attrs:
             del self.context.attrs[name]
 
     def uid(self):

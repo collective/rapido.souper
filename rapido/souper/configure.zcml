@@ -12,7 +12,7 @@
   <adapter
     for="souper.interfaces.IRecord
          rapido.core.interfaces.IRapidable"
-    provides="rapido.core.interfaces.IRecordable"
+    provides="rapido.souper.interfaces.IRecord"
     factory=".document.DocumentRecord"
   />
 
