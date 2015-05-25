@@ -2,6 +2,7 @@ rapido.souper
 =============
 
     >>> from zope.interface import implements, alsoProvides, implementer, Interface
+    >>> from zope.component import provideAdapter
     >>> from zope.configuration.xmlconfig import XMLConfig
     >>> import zope.component
     >>> XMLConfig("meta.zcml", zope.component)()
@@ -14,10 +15,12 @@ rapido.souper
     >>> import rapido.souper
     >>> XMLConfig("configure.zcml", rapido.souper)()
 
-    >>> from rapido.core.interfaces import IDatabasable, IStorage
+    >>> from rapido.core.interfaces import IRapidable, IStorage
 
 Create object which can store soup data:
 
+    >>> from rapido.souper.locator import StorageLocator
+    >>> provideAdapter(StorageLocator, adapts=[Interface])
     >>> from node.ext.zodb import OOBTNode
     >>> from node.base import BaseNode
     >>> from zope.annotation.interfaces import IAttributeAnnotatable
@@ -27,16 +30,21 @@ Create object which can store soup data:
 
 Create a persistent object that will be adapted as a rapido db:
 
+    >>> from rapido.core.app import Context
     >>> class DatabaseNode(BaseNode):
-    ...    implements(IAttributeAnnotatable, IDatabasable)
-    ...    def __init__(self, uid, root):
-    ...        self.uid = uid
+    ...    implements(IAttributeAnnotatable, IRapidable)
+    ...    def __init__(self, id, root):
+    ...        self.id = id
     ...        self['root'] = root
+    ...        self.context = Context()
+    ...
+    ...    def get_settings(self):
+    ...        return ""
     ...
     ...    @property
     ...    def root(self):
     ...        return self['root']
-    >>> root['mydb'] = DatabaseNode(1, root)
+    >>> root['mydb'] = DatabaseNode("test", root)
     >>> db_obj = root['mydb']
     >>> storage = IStorage(db_obj)
     >>> storage.initialize()

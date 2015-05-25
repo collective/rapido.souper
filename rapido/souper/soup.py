@@ -1,5 +1,5 @@
-from zope.interface import implements, alsoProvides
-from zope.component import getMultiAdapter, provideUtility
+from zope.interface import implements, alsoProvides, Interface
+from zope.component import getMultiAdapter, provideUtility, provideAdapter
 from souper.interfaces import ICatalogFactory
 from souper.soup import get_soup, Record, NodeAttributeIndexer
 from repoze.catalog.indexes.field import CatalogFieldIndex
@@ -11,6 +11,7 @@ try:
 except:
     from .interfaces import ISoupRoot
     from .locator import StorageLocator
+    provideAdapter(StorageLocator, adapts=[Interface])
 
 from rapido.core.interfaces import IStorage, IRapidoApplication
 
