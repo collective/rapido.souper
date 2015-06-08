@@ -96,6 +96,10 @@ class SoupStorage(object):
         else:
             self.soup.reindex()
 
+    @property
+    def indexes(self):
+        return self.soup.catalog.keys()
+
     def create_index(self, fieldname, indextype):
         catalog = self.soup.catalog
         field_indexer = NodeAttributeIndexer(fieldname)
