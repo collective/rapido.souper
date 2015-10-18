@@ -49,7 +49,7 @@ Create a persistent object that will be adapted as a rapido db:
     >>> storage = IStorage(db_obj)
     >>> storage.initialize()
 
-Let's create a document:
+Let's create a record:
 
     >>> doc = storage.create()
     >>> uid = doc.uid()
@@ -58,11 +58,11 @@ Let's create a document:
     True
     >>> doc.get_item('song')
     'Where is my mind?'
-    >>> doc.set_item('docid', "doc_1")
+    >>> doc.set_item('id', "doc_1")
     >>> doc.items()
-    {'docid': 'doc_1', 'song': 'Where is my mind?'}
+    {'id': 'doc_1', 'song': 'Where is my mind?'}
     >>> storage.reindex(doc)
-    >>> len([doc for doc in storage.search('docid=="doc_1"')])
+    >>> len([doc for doc in storage.search('id=="doc_1"')])
     1
 
 Add indexes:
@@ -79,13 +79,13 @@ Add indexes:
     >>> len([doc for doc in storage.search('"mind" in song')])
     1
 
-Delete items or document:
+Delete items or record:
 
     >>> doc.remove_item('song')
     >>> doc.has_item('song')
     False
-    >>> list(doc for doc in storage.documents())
-    [<rapido.souper.document.DocumentRecord object at ...>]
+    >>> list(doc for doc in storage.records())
+    [<rapido.souper.record.Record object at ...>]
     >>> storage.delete(doc)
-    >>> list(storage.documents())
+    >>> list(storage.records())
     []

@@ -9,6 +9,6 @@ class CatalogFactory(object):
 
     def __call__(self, context=None):
         catalog = Catalog()
-        docid_indexer = NodeAttributeIndexer('docid')
-        catalog[u'docid'] = CatalogFieldIndex(docid_indexer)
+        id_indexer = NodeAttributeIndexer('id')
+        catalog[u'id'] = CatalogFieldIndex(id_indexer)
         return catalog

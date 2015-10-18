@@ -43,7 +43,7 @@ class SoupStorage(object):
         return self._soup
 
     def create(self):
-        """ return a new document
+        """ return a new record
         """
         record = Record()
         rid = self.soup.add(record)
@@ -52,7 +52,7 @@ class SoupStorage(object):
             IRecord)
 
     def get(self, uid=None):
-        """ return an existing document
+        """ return an existing record
         """
         record = self.soup.get(uid)
         if not record:
@@ -61,20 +61,20 @@ class SoupStorage(object):
             (record, IRapidoApplication(self.context)),
             IRecord)
 
-    def save(self, doc):
-        """ save a document
+    def save(self, record):
+        """ save a record
         """
         # the soup record stores item immediately
         pass
 
-    def delete(self, doc):
-        """ delete a document
+    def delete(self, record):
+        """ delete a record
         """
-        del self.soup[doc.context]
+        del self.soup[record.context]
 
     def search(self, query, sort_index=None, limit=None, sort_type=None,
             reverse=False, names=None, with_size=False):
-        """ search for documents
+        """ search for records
         """
         records = self.soup.lazy(query, sort_index=sort_index, limit=limit,
             sort_type=sort_type, reverse=reverse, names=names,
@@ -83,16 +83,16 @@ class SoupStorage(object):
         for record in records:
             yield getMultiAdapter((record(), db), IRecord)
 
-    def documents(self):
+    def records(self):
         for key in self.soup.data.keys():
             yield self.get(key)
 
     def rebuild(self):
         self.soup.rebuild()
 
-    def reindex(self, doc=None):
-        if doc:
-            self.soup.reindex(records=[doc.context])
+    def reindex(self, record=None):
+        if record:
+            self.soup.reindex(records=[record.context])
         else:
             self.soup.reindex()
 
