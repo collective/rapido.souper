@@ -90,6 +90,9 @@ class SoupStorage(object):
     def rebuild(self):
         self.soup.rebuild()
 
+    def clear(self):
+        self.soup.clear()
+
     def reindex(self, record=None):
         if record:
             self.soup.reindex(records=[record.context])
