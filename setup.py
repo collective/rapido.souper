@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0a1.dev0'
+version = '1.0'
 
 setup(name='rapido.souper',
     version=version,
