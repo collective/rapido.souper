@@ -1,12 +1,7 @@
-from copy import deepcopy
-
 from zope.interface import implementer
 from zope.annotation import IAnnotations
 from souper.interfaces import IStorageLocator
-from souper.soup import (
-    SoupData,
-    get_soup
-)
+from souper.soup import SoupData
 
 CACHE_PREFIX = 'soup_storage_%s'
 SOUPPATHS = 'SOUPPATHS'
@@ -32,7 +27,6 @@ class StorageLocator(object):
         paths = IAnnotations(self.root).get(SOUPPATHS, {})
         return paths.get(sid, '/')
 
-
     def traverse(self, path):
         """traverse to path relative to soups root and return the object there.
         """
@@ -51,7 +45,6 @@ class StorageLocator(object):
         """
         key = SOUPKEY % sid
         annotations = IAnnotations(obj)
-        if not key in annotations:
+        if key not in annotations:
             annotations[key] = SoupData()
         return annotations[key]
-

@@ -8,7 +8,7 @@ from repoze.catalog.indexes.keyword import CatalogKeywordIndex
 try:
     from souper.plone.interfaces import ISoupRoot
     from souper.plone.locator import StorageLocator
-except:
+except ImportError:
     from .interfaces import ISoupRoot
     from .locator import StorageLocator
     provideAdapter(StorageLocator, adapts=[Interface])
