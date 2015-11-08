@@ -54,7 +54,7 @@ Let's create a record:
     >>> doc = storage.create()
     >>> uid = doc.uid()
     >>> doc['song'] = 'Where is my mind?'
-    >>> 'song' in storage.get(uid)
+    >>> 'song' in doc
     True
     >>> doc['song']
     'Where is my mind?'
@@ -67,13 +67,19 @@ Let's create a record:
     >>> len([doc for doc in storage.search('id=="doc_1"')])
     1
 
+We can retrieve record:
+    >>> storage.get(uid)['song']
+    'Where is my mind?'
+    >>> storage.get(999) is None
+    True
+
 Add indexes:
 
     >>> storage.create_index("band", "field")
     >>> doc['band'] = "Pixies"
     >>> len([doc for doc in storage.search('band=="Pixies"')])
     0
-    >>> storage.reindex(doc)
+    >>> storage.reindex()
     >>> len([doc for doc in storage.search('band=="Pixies"')])
     1
     >>> storage.create_index("song", "text")
@@ -89,5 +95,27 @@ Delete items or record:
     >>> list(doc for doc in storage.records())
     [<rapido.souper.record.Record object at ...>]
     >>> storage.delete(doc)
+    >>> list(storage.records())
+    []
+
+Reindex, rebuild, clear
+    >>> doc1 = storage.create()
+    >>> doc1['song'] = 'ABC'
+    >>> doc2 = storage.create()
+    >>> doc2['song'] = 'Thriller'
+    >>> len([doc for doc in storage.search('song=="ABC"')])
+    0
+    >>> storage.reindex()
+    >>> len([doc for doc in storage.search('song=="ABC"')])
+    1
+    >>> doc2['style'] = ['Pop',]
+    >>> storage.rebuild()
+    >>> storage.indexes
+    [u'id']
+    >>> storage.create_index("style", "keyword")
+    >>> storage.reindex()
+    >>> len([doc for doc in storage.search("style in any(['Pop', 'Rock'])")])
+    1
+    >>> storage.clear()
     >>> list(storage.records())
     []

@@ -54,8 +54,9 @@ class SoupStorage(object):
     def get(self, uid=None):
         """ return an existing record
         """
-        record = self.soup.get(uid)
-        if not record:
+        try:
+            record = self.soup.get(uid)
+        except KeyError:
             return None
         return getMultiAdapter(
             (record, IRapidoApplication(self.context)),
