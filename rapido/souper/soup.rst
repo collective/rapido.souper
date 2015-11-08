@@ -53,14 +53,16 @@ Let's create a record:
 
     >>> doc = storage.create()
     >>> uid = doc.uid()
-    >>> doc.set_item('song', 'Where is my mind?')
-    >>> storage.get(uid).has_item('song')
+    >>> doc['song'] = 'Where is my mind?'
+    >>> 'song' in storage.get(uid)
     True
-    >>> doc.get_item('song')
+    >>> doc['song']
     'Where is my mind?'
-    >>> doc.set_item('id', "doc_1")
+    >>> doc['id'] = "doc_1"
     >>> doc.items()
     {'id': 'doc_1', 'song': 'Where is my mind?'}
+    >>> [key for key in doc]
+    ['song', 'id']
     >>> storage.reindex(doc)
     >>> len([doc for doc in storage.search('id=="doc_1"')])
     1
@@ -68,7 +70,7 @@ Let's create a record:
 Add indexes:
 
     >>> storage.create_index("band", "field")
-    >>> doc.set_item('band', "Pixies")
+    >>> doc['band'] = "Pixies"
     >>> len([doc for doc in storage.search('band=="Pixies"')])
     0
     >>> storage.reindex(doc)
@@ -81,8 +83,8 @@ Add indexes:
 
 Delete items or record:
 
-    >>> doc.remove_item('song')
-    >>> doc.has_item('song')
+    >>> del doc['song']
+    >>> 'song' in doc
     False
     >>> list(doc for doc in storage.records())
     [<rapido.souper.record.Record object at ...>]

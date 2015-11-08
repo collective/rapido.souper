@@ -13,23 +13,30 @@ class Record(object):
         self.context = context
         self.app = app
 
-    def set_item(self, name, value):
+    def get(self, name, default=None):
+        """ return an item value
+        """
+        if name in self:
+            return self[name]
+        else:
+            return default
+
+    def __getitem__(self, name):
+        """ return an item value
+        """
+        return deepcopy(self.context.attrs[name])
+
+    def __setitem__(self, name, value):
         """ set an item value
         """
         self.context.attrs[name] = value
 
-    def get_item(self, name):
-        """ return an item value
-        """
-        if(self.has_item(name)):
-            return deepcopy(self.context.attrs[name])
-
-    def has_item(self, name):
+    def __contains__(self, name):
         """ test if item exists
         """
         return name in self.context.attrs
 
-    def remove_item(self, name):
+    def __delitem__(self, name):
         """ remove an item
         """
         if name in self.context.attrs:
@@ -39,6 +46,11 @@ class Record(object):
         """ return internal identifier
         """
         return self.context.intid
+
+    def __iter__(self):
+        """ return all items
+        """
+        return iter(self.context.attrs)
 
     def items(self):
         """ return all items
