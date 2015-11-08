@@ -61,12 +61,6 @@ class SoupStorage(object):
             (record, IRapidoApplication(self.context)),
             IRecord)
 
-    def save(self, record):
-        """ save a record
-        """
-        # the soup record stores item immediately
-        pass
-
     def delete(self, record):
         """ delete a record
         """
