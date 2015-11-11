@@ -27,6 +27,7 @@ class SoupStorage(object):
         self.id = context.id
         self.root = self.context.root
         provideUtility(CatalogFactory(), ICatalogFactory, name=self.id)
+        self._soup = get_soup(self.id, self.root)
 
     def initialize(self):
         """ setup the storage
@@ -38,8 +39,6 @@ class SoupStorage(object):
 
     @property
     def soup(self):
-        if not hasattr(self, '_soup'):
-            self._soup = get_soup(self.id, self.root)
         return self._soup
 
     def create(self):

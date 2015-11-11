@@ -58,6 +58,14 @@ Let's create a record:
     True
     >>> doc['song']
     'Where is my mind?'
+    >>> doc.get('song')
+    'Where is my mind?'
+    >>> doc['not_an_item']
+    Traceback (most recent call last):
+    ...
+    KeyError: 'not_an_item'
+    >>> doc.get('not_an_item', '')
+    ''
     >>> doc['id'] = "doc_1"
     >>> doc.items()
     {'id': 'doc_1', 'song': 'Where is my mind?'}
