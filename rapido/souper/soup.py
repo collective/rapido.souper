@@ -73,9 +73,9 @@ class SoupStorage(object):
         records = self.soup.lazy(query, sort_index=sort_index, limit=limit,
             sort_type=sort_type, reverse=reverse, names=names,
             with_size=with_size)
-        db = IRapidoApplication(self.context)
+        app = IRapidoApplication(self.context)
         for record in records:
-            yield getMultiAdapter((record(), db), IRecord)
+            yield getMultiAdapter((record(), app), IRecord)
 
     def records(self):
         for key in self.soup.data.keys():
