@@ -34,7 +34,7 @@ class Record(object):
     def __contains__(self, name):
         """ test if item exists
         """
-        return name in self.context.attrs.keys()
+        return name in self.context.attrs
 
     def __delitem__(self, name):
         """ remove an item
