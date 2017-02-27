@@ -34,12 +34,12 @@ class Record(object):
     def __contains__(self, name):
         """ test if item exists
         """
-        return name in self.context.attrs
+        return name in self.context.attrs.keys()
 
     def __delitem__(self, name):
         """ remove an item
         """
-        if name in self.context.attrs:
+        if name in self.context.attrs.keys():
             del self.context.attrs[name]
 
     def uid(self):
@@ -50,9 +50,9 @@ class Record(object):
     def __iter__(self):
         """ return all items
         """
-        return iter(self.context.attrs)
+        return iter(self.items())
 
     def items(self):
         """ return all items
         """
-        return dict(self.context.attrs)
+        return dict(self.context.attrs.items())

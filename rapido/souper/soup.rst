@@ -70,7 +70,7 @@ Let's create a record:
     >>> doc.items()
     {'id': 'doc_1', 'song': 'Where is my mind?'}
     >>> [key for key in doc]
-    ['song', 'id']
+    ['id', 'song']
     >>> storage.reindex(doc)
     >>> len([doc for doc in storage.search('id=="doc_1"')])
     1
